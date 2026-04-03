@@ -2,8 +2,8 @@
 
 ## Description
 
-Homework for Topic 4: Arrays.
-Practice JavaScript fundamentals: arrays, loops, and functions.
+Homework for Topic 6: Arrays and Object Methods.
+Practice JavaScript fundamentals: objects, arrays, methods, and `this`.
 
 ## Project Structure
 
@@ -13,6 +13,8 @@ goit-js-hw-04/
 │   ├── task-1.js
 │   ├── task-2.js
 │   └── task-3.js
+├── .gitignore
+├── .prettierrc.json
 ├── index.html
 └── README.md
 ```
@@ -23,90 +25,126 @@ Open `index.html` in the browser and check the DevTools console for output.
 
 ## Tasks
 
-### Task 1 — Slug Generator
+### Task 1 — Packing Goods
 
 **File:** `task-1.js`
 
-A **slug** is a human-readable unique identifier used in web development to create readable URLs.
+**Function:** `isEnoughCapacity(products, containerSize)` — calculates whether all goods will fit in a container during packing.
 
-For example, instead of `mysite.com/posts/1q8fh74tx`, a slug based on the article title produces a friendlier URL: `mysite.com/posts/arrays-for-begginers`.
+Parameters:
 
-A slug is always a lowercase string with words separated by hyphens.
+- `products` — an object where keys are product names and values are their quantities. For example, `{ apples: 2, grapes: 4 }`.
+- `containerSize` — a number, the maximum number of product units the container can hold.
 
-**Function:** `slugify(title)` — takes an article title and returns a slug created from that string.
-
-- The `title` parameter will be a string with words separated only by spaces.
-- All slug characters must be lowercase.
-- All slug words must be separated by hyphens.
+The function should return the result of checking whether all products fit in the container. It counts the total number of products in the `products` object and returns `true` if it is less than or equal to `containerSize`, and `false` otherwise.
 
 ```js
-console.log(slugify("Arrays for begginers")); // "arrays-for-begginers"
-console.log(slugify("English for developer")); // "english-for-developer"
-console.log(slugify("Ten secrets of JavaScript")); // "ten-secrets-of-javascript"
-console.log(slugify("How to become a JUNIOR developer in TWO WEEKS")); // "how-to-become-a-junior-developer-in-two-weeks"
+console.log(isEnoughCapacity({ apples: 2, grapes: 3, carrots: 1 }, 8)); // true
+console.log(isEnoughCapacity({ apples: 4, grapes: 6, lime: 16 }, 12)); // false
+console.log(isEnoughCapacity({ apples: 1, lime: 5, tomatoes: 3 }, 14)); // true
+console.log(isEnoughCapacity({ apples: 18, potatoes: 5, oranges: 2 }, 7)); // false
 ```
 
 **Mentor checklist:**
 
-- Function `slugify(title)` is declared
-- All example calls return the correct slug strings
+- Function `isEnoughCapacity(products, containerSize)` is declared
+- `isEnoughCapacity({ apples: 2, grapes: 3, carrots: 1 }, 8)` returns `true`
+- `isEnoughCapacity({ apples: 4, grapes: 6, lime: 16 }, 12)` returns `false`
+- `isEnoughCapacity({ apples: 1, lime: 5, tomatoes: 3 }, 14)` returns `true`
+- `isEnoughCapacity({ apples: 18, potatoes: 5, oranges: 2 }, 7)` returns `false`
 
 ---
 
-### Task 2 — Array Composition
+### Task 2 — Calorie Calculation
 
 **File:** `task-2.js`
 
-**Function:** `makeArray(firstArray, secondArray, maxLength)` — takes two arrays and a number. The function creates a new array containing all elements from `firstArray` followed by all elements from `secondArray`.
+**Function:** `calcAverageCalories(days)` — returns the average daily calorie intake consumed by an athlete during the week.
 
-- If the new array's length exceeds `maxLength`, return a copy of the array with only `maxLength` elements.
-- Otherwise, return the entire new array.
+Parameters:
+
+- `days` — an array of objects. Each object describes a day of the week and the number of `calories` consumed by the athlete on that day.
 
 ```js
-console.log(makeArray(["Mango", "Poly"], ["Ajax", "Chelsea"], 3)); // ["Mango", "Poly", "Ajax"]
-console.log(makeArray(["Mango", "Poly", "Houston"], ["Ajax", "Chelsea"], 4)); // ["Mango", "Poly", "Houston", "Ajax"]
-console.log(makeArray(["Mango"], ["Ajax", "Chelsea", "Poly", "Houston"], 3)); // ["Mango", "Ajax", "Chelsea"]
-console.log(makeArray(["Earth", "Jupiter"], ["Neptune", "Uranus"], 2)); // ["Earth", "Jupiter"]
-console.log(makeArray(["Earth", "Jupiter"], ["Neptune", "Uranus"], 4)); // ["Earth", "Jupiter", "Neptune", "Uranus"]
-console.log(makeArray(["Earth", "Jupiter"], ["Neptune", "Uranus", "Venus"], 0)); // []
+console.log(
+  calcAverageCalories([
+    { day: "monday", calories: 3010 },
+    { day: "tuesday", calories: 3200 },
+    { day: "wednesday", calories: 3120 },
+    { day: "thursday", calories: 2900 },
+    { day: "friday", calories: 3450 },
+    { day: "saturday", calories: 3280 },
+    { day: "sunday", calories: 3300 },
+  ])
+); // 3180
+
+console.log(
+  calcAverageCalories([
+    { day: "monday", calories: 2040 },
+    { day: "tuesday", calories: 2270 },
+    { day: "wednesday", calories: 2420 },
+    { day: "thursday", calories: 1900 },
+    { day: "friday", calories: 2370 },
+    { day: "saturday", calories: 2280 },
+    { day: "sunday", calories: 2610 },
+  ])
+); // 2270
+
+console.log(calcAverageCalories([])); // 0
 ```
 
 **Mentor checklist:**
 
-- Function `makeArray(firstArray, secondArray, maxLength)` is declared
-- All example calls return the correct arrays
-- Calling `makeArray()` with random arrays and a random number returns the correct result
+- Function `calcAverageCalories(days)` is declared
+- First example call returns `3180`
+- Second example call returns `2270`
+- `calcAverageCalories([])` returns `0`
 
 ---
 
-### Task 3 — Filtering an Array of Numbers
+### Task 3 — Player Profile
 
 **File:** `task-3.js`
 
-**Function:** `filterArray(numbers, value)` — takes an array of numbers and a value. Returns a new array containing only the numbers from `numbers` that are greater than `value`.
-
-Inside the function:
-
-1. Create an empty array to collect matching numbers.
-2. Use a loop to iterate over each element of the `numbers` array.
-3. Use an `if` statement inside the loop to check each element and add it to the new array.
-4. Return the new array with matching numbers.
+The `profile` object describes a user profile on a gaming platform. Its properties store the profile name `username` and the number of active hours `playTime` spent in the game.
 
 ```js
-console.log(filterArray([1, 2, 3, 4, 5], 3)); // [4, 5]
-console.log(filterArray([1, 2, 3, 4, 5], 4)); // [5]
-console.log(filterArray([1, 2, 3, 4, 5], 5)); // []
-console.log(filterArray([12, 24, 8, 41, 76], 38)); // [41, 76]
-console.log(filterArray([12, 24, 8, 41, 76], 20)); // [24, 41, 76]
+const profile = {
+  username: "Jacob",
+  playTime: 300,
+};
+```
+
+Add the following methods to the `profile` object:
+
+- `changeUsername(newName)` — accepts a string (new name) as the `newName` parameter and changes the value of the `username` property. Returns nothing.
+- `updatePlayTime(hours)` — accepts a number (hours) as the `hours` parameter and increases the `playTime` property value by that amount. Returns nothing.
+- `getInfo()` — returns a string in the format `<Username> has <amount> active hours!`, where `<Username>` is the profile name and `<amount>` is the number of game hours.
+
+```js
+console.log(profile.getInfo()); // "Jacob has 300 active hours!"
+
+profile.changeUsername("Marco");
+console.log(profile.getInfo()); // "Marco has 300 active hours!"
+
+profile.updatePlayTime(20);
+console.log(profile.getInfo()); // "Marco has 320 active hours!"
 ```
 
 **Mentor checklist:**
 
-- Function `filterArray(numbers, value)` is declared
-- All example calls return the correct arrays
-- Calling `filterArray()` with a random array and number returns the correct result
+- Variable `profile` is declared
+- Value of `profile` is an object with properties `username`, `playTime`, `getInfo`, `changeUsername`, and `updatePlayTime`
+- `getInfo`, `changeUsername`, and `updatePlayTime` are functions
+- `this` is used to access object properties within its methods
 
 ---
+
+## Submission
+
+- Link to the repository with source files
+- Link to the live page on GitHub Pages
+- Attached repository file in `.zip` format
 
 ## Requirements
 
